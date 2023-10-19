@@ -18,6 +18,7 @@ setup(
     license='MIT',
     author='Erin Akinjide',
     author_email='erinakinjide16@gmail.com',
-    description='A simple Tic Tac Toe game package'
+    description='A simple Tic Tac Toe game package',
+    html_theme='sphinx_rtd_theme'
 )
 
