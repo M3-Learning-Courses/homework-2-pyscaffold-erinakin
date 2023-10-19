@@ -32,118 +32,87 @@ __license__ = "MIT"
 
 _logger = logging.getLogger(__name__)
 
+# My attempt at creating this.
 
-# ---- Python API ----
-# The functions defined in this section can be imported by users in their
-# Python scripts/interactive interpreter, e.g. via
-# `from tic_tac_toe.skeleton import fib`,
-# when using this Python module as a library.
+from game import TicTacToe
 
-
-def fib(n):
-    """Fibonacci example function
-
-    Args:
-      n (int): integer
-
-    Returns:
-      int: n-th Fibonacci number
+class TicTacToeAPI:
     """
-    assert n > 0
-    a, b = 1, 1
-    for _i in range(n - 1):
-        a, b = b, a + b
-    return a
-
-
-# ---- CLI ----
-# The functions defined in this section are wrappers around the main Python
-# API allowing them to be called directly from the terminal as a CLI
-# executable/script.
-
-
-def parse_args(args):
-    """Parse command line parameters
-
-    Args:
-      args (List[str]): command line parameters as list of strings
-          (for example  ``["--help"]``).
-
-    Returns:
-      :obj:`argparse.Namespace`: command line parameters namespace
+    A class to handle the Tic Tac Toe game logic through an API.
     """
-    parser = argparse.ArgumentParser(description="Just a Fibonacci demonstration")
-    parser.add_argument(
-        "--version",
-        action="version",
-        version=f"tic_tac_toe {__version__}",
-    )
-    parser.add_argument(dest="n", help="n-th Fibonacci number", type=int, metavar="INT")
-    parser.add_argument(
-        "-v",
-        "--verbose",
-        dest="loglevel",
-        help="set loglevel to INFO",
-        action="store_const",
-        const=logging.INFO,
-    )
-    parser.add_argument(
-        "-vv",
-        "--very-verbose",
-        dest="loglevel",
-        help="set loglevel to DEBUG",
-        action="store_const",
-        const=logging.DEBUG,
-    )
-    return parser.parse_args(args)
+    def __init__(self):
+        self.game = TicTacToe()
 
+    def make_move(self, position, player):
+        """
+        Makes a move on the board.
 
-def setup_logging(loglevel):
-    """Setup basic logging
+        Args:
+            position (int): The position on the board where the move is made (0-8).
+            player (str): The player making the move ('X' or 'O').
 
-    Args:
-      loglevel (int): minimum loglevel for emitting messages
+        Returns:
+            str: The result message indicating if the move was successful or not.
+        """
+        if self.game.make_move(position, player):
+            return f"Player {player} successfully made a move at position {position}."
+        else:
+            return f"Position {position} is already taken. Please choose an empty position."
+
+    def check_winner(self, position):
+        """
+        Checks if there is a winner after a move is made.
+
+        Args:
+            position (int): The position on the board where the last move was made (0-8).
+
+        Returns:
+            str: The result message indicating the winner or draw.
+        """
+        winner = self.game.check_winner(position)
+        if winner:
+            if winner == 'Draw':
+                return "It's a draw!"
+            else:
+                return f"Player {winner} wins!"
+        else:
+            return "No winner yet."
+
+class TicTacToeCLI:
     """
-    logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
-    logging.basicConfig(
-        level=loglevel, stream=sys.stdout, format=logformat, datefmt="%Y-%m-%d %H:%M:%S"
-    )
-
-
-def main(args):
-    """Wrapper allowing :func:`fib` to be called with string arguments in a CLI fashion
-
-    Instead of returning the value from :func:`fib`, it prints the result to the
-    ``stdout`` in a nicely formatted message.
-
-    Args:
-      args (List[str]): command line parameters as list of strings
-          (for example  ``["--verbose", "42"]``).
+    A class to handle the command-line interface for the Tic Tac Toe game.
     """
-    args = parse_args(args)
-    setup_logging(args.loglevel)
-    _logger.debug("Starting crazy calculations...")
-    print(f"The {args.n}-th Fibonacci number is {fib(args.n)}")
-    _logger.info("Script ends here")
+    def __init__(self):
+        self.api = TicTacToeAPI()
 
+    def start_game(self):
+        """
+        Starts the Tic Tac Toe game.
+        """
+        self.api.game.print_welcome_message()
 
-def run():
-    """Calls :func:`main` passing the CLI arguments extracted from :obj:`sys.argv`
+        while True:
+            self.api.game.print_board()
+            position = int(input("Player X, enter position (0-8): "))
+            result = self.api.make_move(position, 'X')
 
-    This function can be used as entry point to create console scripts with setuptools.
-    """
-    main(sys.argv[1:])
+            print(result)
 
+            if 'wins' in result or 'draw' in result:
+                break
+
+            self.api.game.print_board()
+            position = int(input("Player O, enter position (0-8): "))
+            result = self.api.make_move(position, 'O')
+
+            print(result)
+
+            if 'wins' in result or 'draw' in result:
+                break
 
 if __name__ == "__main__":
-    # ^  This is a guard statement that will prevent the following code from
-    #    being executed in the case someone imports this file instead of
-    #    executing it as a script.
-    #    https://docs.python.org/3/library/__main__.html
+    cli = TicTacToeCLI()
+    cli.start_game()
 
-    # After installing your project with pip, users can also run your Python
-    # modules as scripts via the ``-m`` flag, as defined in PEP 338::
-    #
-    #     python -m tic_tac_toe.skeleton 42
-    #
-    run()
+
+
