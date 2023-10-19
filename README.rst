@@ -1,6 +1,4 @@
-.. These are examples of badges you might want to add to your README:
-   please update the URLs accordingly
-
+..
     .. image:: https://api.cirrus-ci.com/github/<USER>/tic_tac_toe.svg?branch=main
         :alt: Built Status
         :target: https://cirrus-ci.com/github/<USER>/tic_tac_toe
@@ -45,15 +43,8 @@ from tic_tac_toe.game import TicTacToe
 # Initialize the game
 game = TicTacToe()
 
-# ... (Add your own game logic here)
-## Contributing
-If you'd like to contribute to this project, please follow these guidelines:
+# Start playing
 
-1. Fork the repository.
-2. Create a new branch for your feature: git checkout -b feature-name.
-3. Commit your changes: git commit -m 'Add some feature'.
-4. Push to the branch: git push origin feature-name.
-5. Submit a pull request.
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
