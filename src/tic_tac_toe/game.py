@@ -21,7 +21,7 @@ class TicTacToe:
             print(f'{self.board[i]} | {self.board[i + 1]} | {self.board[i + 2]}')
             # Print a line of dashes after every row except the last
             if i < 6:
-                print('-' * 5)
+                print('-' * 9)
 
     def make_move(self, position, player):
         """
