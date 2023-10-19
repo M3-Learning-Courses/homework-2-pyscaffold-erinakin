@@ -34,7 +34,9 @@ tic_tac_toe
 ===========
 
 
-    Add a short description here!
+    Tic Tac Toe Python Package: A classic two-player game implemented as a
+    Python package. Challenge your friends or test your strategic skills 
+    against an AI opponent. Play on the command line and enjoy the timeless fun of Tic Tac Toe.
 
 
 A longer description of your project goes here...

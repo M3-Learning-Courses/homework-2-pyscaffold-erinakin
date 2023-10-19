@@ -6,16 +6,18 @@
     PyScaffold helps you to put up the scaffold of your new Python project.
     Learn more under: https://pyscaffold.org/
 """
-from setuptools import setup
+from setuptools import setup, find_packages
 
-if __name__ == "__main__":
-    try:
-        setup(use_scm_version={"version_scheme": "no-guess-dev"})
-    except:  # noqa
-        print(
-            "\n\nAn error occurred while building the project, "
-            "please ensure you have the most updated version of setuptools, "
-            "setuptools_scm and wheel with:\n"
-            "   pip install -U setuptools setuptools_scm wheel\n\n"
-        )
-        raise
+setup(
+    name='tic_tac_toe',
+    version='0.1.0',
+    packages=find_packages(),
+    install_requires=['pyfiglet'],  # Add 'pyfiglet' here
+    entry_points={},
+    url='',
+    license='MIT',
+    author='Erin Akinjide',
+    author_email='erinakinjide16@gmail.com',
+    description='A simple Tic Tac Toe game package'
+)
+
