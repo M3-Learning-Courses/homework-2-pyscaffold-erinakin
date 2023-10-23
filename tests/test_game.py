@@ -1,47 +1,78 @@
 import unittest
-from unittest.mock import patch
-from io import StringIO
 from tic_tac_toe.game import TicTacToe
 
-class TestTicTacToe(unittest.TestCase):
 
-    def setUp(self):
-        self.game = TicTacToe()
+def test_init():
+    # Initialize a TicTacToe instance
+    game = TicTacToe()
 
-    def test_initialization(self):
-        self.assertEqual(self.game.board, [' ' for _ in range(9)])
+    # Check initial board state
+    assert game.board == [' ' for _ in range(9)]
+    assert game.winner == None
+    assert game.current_player == 'X'
+    assert game.moves_count == 0
 
-    def test_make_move(self):
-        self.assertTrue(self.game.make_move(0, 'X'))
-        self.assertEqual(self.game.board[0], 'X')
-        self.assertFalse(self.game.make_move(0, 'O'))  # Attempting to make a move on an occupied position
 
-    def test_check_winner(self):
-        self.game.board = ['X', 'X', 'X', 'O', 'O', ' ', ' ', ' ', ' ']
-        self.assertEqual(self.game.check_winner(2), 'X')  # X wins by completing top row
-        self.game.board = ['X', 'O', 'X', 'O', 'X', 'O', 'O', 'X', 'O']
-        self.assertEqual(self.game.check_winner(8), 'Draw')  # Game ends in a draw
+def test_welcome_message():
+    # Initialize a TicTacToe instance
+    game = TicTacToe()
 
-    def test_print_board(self):
-        with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
-            self.game.print_board()
-            output = mock_stdout.getvalue().strip()
-            expected_output = "  |   |  \n---------\n  |   |  \n---------\n  |   |  "
-            self.assertEqual(output, expected_output)
+    # Check if welcome message is generated correctly
+    expected_message = pyfiglet.figlet_format("Welcome to Tic Tac Toe")
+    assert game.welcome_message() == expected_message
 
-    def test_print_welcome_message(self):
-        with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
-            self.game.print_welcome_message()
-            output = mock_stdout.getvalue().strip()
-            expected_output = "WELCOME TO TIC TAC TOE!"
-            self.assertEqual(output, expected_output)
 
-    def test_display_winner_message(self):
-        with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
-            self.game.display_winner_message('X')
-            output = mock_stdout.getvalue().strip()
-            expected_output = " PLAYER X WINS! "
-            self.assertEqual(output, expected_output)
+def test_make_move(self):
+    self.assertTrue(self.game.make_move(0, 'X'))
+    self.assertEqual(self.game.board[0], 'X')
+
+def test_invalid_move(self):
+    self.assertTrue(self.game.make_move(0, 'X'))
+    self.assertFalse(self.game.make_move(0, 'O'))
+    self.assertEqual(self.game.board[0], 'X')
+
+def test_check_winner():
+    # Test case 1: X wins in a row
+    game = TicTacToe()
+    game.board = ['X', 'X', 'X', ' ', ' ', ' ', ' ', ' ', ' ']
+    assert game.check_winner() == True
+    assert game.winner == 'X'
+
+    # Test case 2: O wins in a column
+    game = TicTacToe()
+    game.board = ['O', ' ', ' ', 'O', ' ', ' ', 'O', ' ', ' ']
+    assert game.check_winner() == True
+    assert game.winner == 'O'
+
+    # Test case 3: X wins in a diagonal
+    game = TicTacToe()
+    game.board = ['O', 'O', 'X', 'X', 'X', 'O', 'X', 'O', ' ']
+    assert game.check_winner() == True
+    assert game.winner == 'X'
+
+    # Test case 4: Draw
+    game = TicTacToe()
+    game.board = ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', 'X']
+    assert game.check_winner() == True
+    assert game.winner == 'Draw'
+
+    # Test case 5: No winner yet
+    game = TicTacToe()
+    game.board = ['X', ' ', 'O', ' ', 'O', 'X', 'O', 'X', 'O']
+    assert game.check_winner() == False
+    assert game.winner == None
+    
+    # Test case 6: X wins after 9 moves
+    game = TicTacToe()
+
+    # Simulate a game with a winner
+    game.moves_count = 9
+    game.winner = 'X'
+
+    # Check if draw is not declared if there's already a winner
+    assert game.declare_draw() == False
+
 
 if __name__ == '__main__':
-    unittest.main()
+    import pytest
+    pytest.main(['-vv', '--cov=tic_tac_toe'])

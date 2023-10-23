@@ -5,8 +5,7 @@ source = tic_tac_toe
 # omit = bad_file.py
 
 [paths]
-source =
-    src/
+source = src/
     */site-packages/
 
 [report]
@@ -14,6 +13,8 @@ source =
 exclude_lines =
     # Have to re-enable the standard pragma
     pragma: no cover
+
+
 
     # Don't complain about missing debug-only code:
     def __repr__
