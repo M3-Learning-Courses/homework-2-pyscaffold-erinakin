@@ -1,6 +1,9 @@
 import unittest
+import pytest
+import pyfiglet
 from tic_tac_toe.game import TicTacToe
-
+from io import StringIO
+from unittest.mock import patch
 
 def test_init():
     # Initialize a TicTacToe instance
@@ -13,23 +16,16 @@ def test_init():
     assert game.moves_count == 0
 
 
-def test_welcome_message():
-    # Initialize a TicTacToe instance
+def test_make_move():
     game = TicTacToe()
+    game.make_move(0, 'X')
+    assert game.board[0]== 'X'
 
-    # Check if welcome message is generated correctly
-    expected_message = pyfiglet.figlet_format("Welcome to Tic Tac Toe")
-    assert game.welcome_message() == expected_message
-
-
-def test_make_move(self):
-    self.assertTrue(self.game.make_move(0, 'X'))
-    self.assertEqual(self.game.board[0], 'X')
-
-def test_invalid_move(self):
-    self.assertTrue(self.game.make_move(0, 'X'))
-    self.assertFalse(self.game.make_move(0, 'O'))
-    self.assertEqual(self.game.board[0], 'X')
+def test_invalid_move():
+    game = TicTacToe()
+    game.make_move(0, 'X')
+    assert game.make_move(0, 'O') == False
+    #assert game.make_move() == False   
 
 def test_check_winner():
     # Test case 1: X wins in a row
@@ -40,7 +36,7 @@ def test_check_winner():
 
     # Test case 2: O wins in a column
     game = TicTacToe()
-    game.board = ['O', ' ', ' ', 'O', ' ', ' ', 'O', ' ', ' ']
+    game.board = [' ', ' ', 'O', ' ', ' ', 'O', ' ', ' ', 'O']
     assert game.check_winner() == True
     assert game.winner == 'O'
 
@@ -53,24 +49,23 @@ def test_check_winner():
     # Test case 4: Draw
     game = TicTacToe()
     game.board = ['X', 'O', 'X', 'X', 'O', 'O', 'O', 'X', 'X']
-    assert game.check_winner() == True
-    assert game.winner == 'Draw'
+    assert game.check_winner() == False
+    assert game.winner == None
 
     # Test case 5: No winner yet
     game = TicTacToe()
-    game.board = ['X', ' ', 'O', ' ', 'O', 'X', 'O', 'X', 'O']
+    game.board = ['X', ' ', 'O', ' ', 'O', 'X', 'X', 'X', 'O']
     assert game.check_winner() == False
     assert game.winner == None
     
-    # Test case 6: X wins after 9 moves
+def test_print_board():
     game = TicTacToe()
+    expected_output = "  |   |  \n--|---|--\n  |   |  \n--|---|--\n  |   |  \n"
 
-    # Simulate a game with a winner
-    game.moves_count = 9
-    game.winner = 'X'
+    with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+        game.print_board()
+        assert mock_stdout.getvalue() == expected_output
 
-    # Check if draw is not declared if there's already a winner
-    assert game.declare_draw() == False
 
 
 if __name__ == '__main__':

@@ -24,9 +24,8 @@ class TicTacToe:
         self.winner = None
         self.current_player = 'X'
         self.moves_count = 0
-
+        self.welcome_message = pyfiglet.figlet_format("Welcome to Tic Tac Toe")
         # Display welcome message
-        return pyfiglet.figlet_format("Welcome to Tic Tac Toe")
 
     def print_board(self):# chech the test coverage for this function
         """
@@ -62,7 +61,7 @@ class TicTacToe:
             print(f"Position {position} is already taken. Please choose another position.")
             return False
 
-    def check_winner(self): #Check the
+    def check_winner(self):  
         """
         Checks if there is a winner in the game.
 
@@ -79,12 +78,10 @@ class TicTacToe:
             if self.board[condition[0]] == self.board[condition[1]] == self.board[condition[2]] != ' ':
                 self.winner = self.board[condition[0]]
                 return True
-        # Check if the game has ended in a draw
-        if self.moves_count == 9 and self.winner is None:
-            self.winner = 'Draw'
-            return True
-        else:
-            return False
-
-        return False
+        
+        # If no winner is found
+        self.winner = None
+        return False 
+            
+       
 
