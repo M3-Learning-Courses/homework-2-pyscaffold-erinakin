@@ -12,7 +12,7 @@ setup(
     name='tic_tac_toe',
     version='0.1.0',
     packages=find_packages(),
-    install_requires=['pyfiglet'],  # Add 'pyfiglet' here
+    install_requires=['pyfiglet','sphinx-rtd-theme'],  # Add 'pyfiglet' here
     entry_points={},
     url='',
     license='MIT',
