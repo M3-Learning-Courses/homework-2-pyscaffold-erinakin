@@ -1,7 +1,7 @@
+from tic_tac_toe.game import TicTacToe
 import unittest
 import pytest
 import pyfiglet
-from tic_tac_toe.game import TicTacToe
 from io import StringIO
 from unittest.mock import patch
 
@@ -70,4 +70,4 @@ def test_print_board():
 
 if __name__ == '__main__':
     import pytest
-    pytest.main(['-vv', '--cov=tic_tac_toe'])
+    pytest.main(['-vv', '--cov=game'])
